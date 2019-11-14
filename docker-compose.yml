@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  laravel:
+    image: docker_php:step4
+    build: .
+    ports:
+    - "8000:8000"
+    environment:
+    - DB_HOST=mysql
+    - DB_DATABASE=sample
+    - DB_USERNAME=foo
+    - DB_PASSWORD=bar
+    volumes:
+    - ./sample:/app/src
+    - /app/src/vendor
+    depends_on:
+    - mysql
+  mysql:
+    image: mysql:5.7
+    ports:
+    - "3306:3306"
+    volumes:
+    - laravel:/var/lib/mysql
+    environment:
+    - MYSQL_ROOT_PASSWORD=root_pass
+    - MYSQL_DATABASE=sample
+    - MYSQL_USER=foo
+    - MYSQL_PASSWORD=bar
+volumes:
+  laravel:
+
